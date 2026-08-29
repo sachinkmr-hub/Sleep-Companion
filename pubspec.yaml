@@ -1,0 +1,71 @@
+name: neend_companion
+description: AI-powered personal sleep and morning companion
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.4.0
+  flutter: '>=3.22.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # State Management
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+  
+  # Navigation
+  go_router: ^14.2.0
+  
+  # Backend & Networking
+  supabase_flutter: ^2.5.0
+  dio: ^5.4.3
+  
+  # Audio & Background Playback
+  just_audio: ^0.9.39
+  audio_service: ^0.18.13
+  audio_session: ^0.1.19
+  
+  # Alarms & Notifications
+  android_alarm_manager_plus: ^4.0.3
+  flutter_local_notifications: ^17.2.1
+  
+  # Voice & Speech
+  speech_to_text: ^6.6.0
+  flutter_tts: ^4.0.2
+  record: ^5.1.0
+  
+  # Storage & Security
+  hive_flutter: ^1.1.0
+  hive: ^2.2.3
+  flutter_secure_storage: ^9.2.2
+  
+  # Permissions & Utilities
+  permission_handler: ^11.3.1
+  timezone: ^0.9.3
+  flutter_timezone: ^1.0.0
+  intl: ^0.19.0
+  uuid: ^4.4.0
+  path_provider: ^2.1.3
+  path: ^1.9.0
+  
+  # UI
+  smooth_page_indicator: ^1.1.0
+  google_fonts: ^6.2.1
+  flutter_animate: ^4.5.0
+  shimmer: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  riverpod_generator: ^2.4.0
+  build_runner: ^2.4.9
+  hive_generator: ^2.0.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/audio/
+    - assets/images/
