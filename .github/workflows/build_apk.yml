@@ -26,7 +26,20 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Set Up Gradle 8.4 Wrapper
+      - name: Generate Native Android Build Scaffolding
+        run: |
+          # Backup custom files
+          cp android/app/src/main/AndroidManifest.xml /tmp/AndroidManifest.xml
+          cp android/app/build.gradle /tmp/build.gradle
+          
+          # Regenerate missing gradle wrappers and scaffolding
+          flutter create . --platforms=android --org com.neend --project-name neend_companion
+          
+          # Restore custom files
+          cp /tmp/AndroidManifest.xml android/app/src/main/AndroidManifest.xml
+          cp /tmp/build.gradle android/app/build.gradle
+
+      - name: Force Gradle 8.4 Wrapper
         run: |
           mkdir -p android/gradle/wrapper
           cat << 'EOF' > android/gradle/wrapper/gradle-wrapper.properties
@@ -36,12 +49,15 @@ jobs:
           zipStorePath=wrapper/dists
           distributionUrl=https\://services.gradle.org/distributions/gradle-8.4-all.zip
           EOF
+          
+          # Ensure gradlew is executable
+          chmod +x android/gradlew
 
       - name: Install Dependencies
         run: flutter pub get
 
       - name: Build Standalone Release APK
-        run: flutter build apk --release
+        run: flutter build apk --release --verbose
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
