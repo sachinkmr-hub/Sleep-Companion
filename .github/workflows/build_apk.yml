@@ -26,27 +26,21 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Initialize Android Scaffolding
+      - name: Set Up Gradle 8.4 Wrapper
         run: |
-          # Backup custom manifest and assets
-          cp android/app/src/main/AndroidManifest.xml /tmp/AndroidManifest.xml
-          cp android/app/proguard-rules.pro /tmp/proguard-rules.pro 2>/dev/null || true
-          
-          # Generate pristine native Flutter Android configuration
-          flutter create . --platforms=android --org com.neend --project-name neend_companion
-          
-          # Restore custom AndroidManifest and Proguard
-          cp /tmp/AndroidManifest.xml android/app/src/main/AndroidManifest.xml
-          cp /tmp/proguard-rules.pro android/app/proguard-rules.pro 2>/dev/null || true
-          
-          # Ensure coreLibraryDesugaring and minSdk 24 are configured in android/app/build.gradle
-          sed -i 's/minSdkVersion.*/minSdkVersion = 24/g' android/app/build.gradle* || true
-          sed -i 's/targetSdkVersion.*/targetSdkVersion = 34/g' android/app/build.gradle* || true
+          mkdir -p android/gradle/wrapper
+          cat << 'EOF' > android/gradle/wrapper/gradle-wrapper.properties
+          distributionBase=GRADLE_USER_HOME
+          distributionPath=wrapper/dists
+          zipStoreBase=GRADLE_USER_HOME
+          zipStorePath=wrapper/dists
+          distributionUrl=https\://services.gradle.org/distributions/gradle-8.4-all.zip
+          EOF
 
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Build Release APK
+      - name: Build Standalone Release APK
         run: flutter build apk --release
 
       - name: Upload APK Artifact
