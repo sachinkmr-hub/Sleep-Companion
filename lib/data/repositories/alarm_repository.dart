@@ -28,4 +28,11 @@ class AlarmRepository {
       await box.put(alarm.id, jsonEncode(alarm.toJson()));
     } catch (e) {}
   }
+
+  Future<void> clearAll() async {
+    try {
+      final box = await _getBox();
+      await box.clear();
+    } catch (e) {}
+  }
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:neend_companion/models/user_profile.dart';
 
@@ -31,6 +32,24 @@ class UserRepository {
       await box.put('profile', jsonEncode(profile.toJson()));
     } catch (e) {
       debugPrint('Error saving profile: $e');
+    }
+  }
+
+  Future<void> deleteProfile() async {
+    try {
+      final box = await _getBox();
+      await box.delete('profile');
+    } catch (e) {
+      debugPrint('Error deleting profile: $e');
+    }
+  }
+
+  Future<void> clearAll() async {
+    try {
+      final box = await _getBox();
+      await box.clear();
+    } catch (e) {
+      debugPrint('Error clearing profile box: $e');
     }
   }
 }

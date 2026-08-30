@@ -1,10 +1,29 @@
 enum InterventionCategory {
   breathwork,
   relaxation,
-  sleep_audio,
+  sleepAudio,
   cognitive,
-  morning_activation,
-  unknown
+  morningActivation,
+  unknown;
+
+  /// Wire format used by the registry, the AI providers and persisted JSON.
+  String get wireName {
+    switch (this) {
+      case InterventionCategory.sleepAudio:
+        return 'sleep_audio';
+      case InterventionCategory.morningActivation:
+        return 'morning_activation';
+      default:
+        return name;
+    }
+  }
+
+  static InterventionCategory fromWireName(Object? value) {
+    return InterventionCategory.values.firstWhere(
+      (e) => e.wireName == value || e.name == value,
+      orElse: () => InterventionCategory.unknown,
+    );
+  }
 }
 
 enum EvidenceLevel {
@@ -50,10 +69,7 @@ class Intervention {
     return Intervention(
       id: json['id'] as String,
       name: json['name'] as String,
-      category: InterventionCategory.values.firstWhere(
-        (e) => e.name == json['category'],
-        orElse: () => InterventionCategory.unknown,
-      ),
+      category: InterventionCategory.fromWireName(json['category']),
       intendedUse: json['intendedUse'] as String,
       evidenceLevel: EvidenceLevel.values.firstWhere(
         (e) => e.name == json['evidenceLevel'],
@@ -74,7 +90,7 @@ class Intervention {
     return {
       'id': id,
       'name': name,
-      'category': category.name,
+      'category': category.wireName,
       'intendedUse': intendedUse,
       'evidenceLevel': evidenceLevel.name,
       'supportingResearch': supportingResearch,

@@ -28,4 +28,21 @@ class CheckinRepository {
       await box.put(checkin.id, jsonEncode(checkin.toJson()));
     } catch (e) {}
   }
+
+  Future<void> saveCheckIn(CheckIn checkin) => saveCheckin(checkin);
+
+  /// The most recent check-in by creation time, or null when there are none.
+  Future<CheckIn?> getLatestCheckIn() async {
+    final checkins = await getCheckins();
+    if (checkins.isEmpty) return null;
+    checkins.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    return checkins.first;
+  }
+
+  Future<void> clearAll() async {
+    try {
+      final box = await _getBox();
+      await box.clear();
+    } catch (e) {}
+  }
 }

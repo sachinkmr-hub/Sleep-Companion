@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:neend_companion/features/feedback/feedback_controller.dart';
+import 'package:neend_companion/models/feedback_entry.dart';
 import 'package:go_router/go_router.dart';
 
 class NightFeedbackSheet extends ConsumerStatefulWidget {
@@ -16,15 +17,15 @@ class NightFeedbackSheet extends ConsumerStatefulWidget {
 }
 
 class _NightFeedbackSheetState extends ConsumerState<NightFeedbackSheet> {
-  int? _selectedRating; // 1 to 4
+  String? _selectedRating;
   bool _showText = false;
   final TextEditingController _notesController = TextEditingController();
 
-  final List<Map<String, dynamic>> _options = [
-    {'icon': '😌', 'label': 'Better', 'value': 4},
-    {'icon': '🙂', 'label': 'Good', 'value': 3},
-    {'icon': '😐', 'label': 'Same', 'value': 2},
-    {'icon': '😕', 'label': 'Didn\'t help', 'value': 1},
+  final List<Map<String, String>> _options = [
+    {'icon': '😌', 'label': 'Better', 'value': 'better'},
+    {'icon': '🙂', 'label': 'Good', 'value': 'good'},
+    {'icon': '😐', 'label': 'Same', 'value': 'same'},
+    {'icon': '😕', 'label': 'Didn\'t help', 'value': 'didnt_help'},
   ];
 
   @override
@@ -37,10 +38,9 @@ class _NightFeedbackSheetState extends ConsumerState<NightFeedbackSheet> {
     if (_selectedRating == null) return;
     
     ref.read(feedbackControllerProvider.notifier).saveFeedback(
-      type: 'night',
+      type: FeedbackType.night,
       rating: _selectedRating!,
       interventionIds: widget.interventionIds,
-      sleepDuration: null,
       notes: _notesController.text.isNotEmpty ? _notesController.text : null,
     );
     
@@ -99,10 +99,10 @@ class _NightFeedbackSheetState extends ConsumerState<NightFeedbackSheet> {
                   ),
                   child: Column(
                     children: [
-                      Text(option['icon'], style: const TextStyle(fontSize: 32)),
+                      Text(option['icon']!, style: const TextStyle(fontSize: 32)),
                       const SizedBox(height: 8),
                       Text(
-                        option['label'],
+                        option['label']!,
                         style: TextStyle(
                           color: isSelected ? const Color(0xFFF5C842) : const Color(0xFF8B9DC3),
                           fontSize: 12,

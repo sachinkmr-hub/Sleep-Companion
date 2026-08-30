@@ -12,6 +12,9 @@ class NightExperienceScreen extends ConsumerStatefulWidget {
 }
 
 class _NightExperienceScreenState extends ConsumerState<NightExperienceScreen> with TickerProviderStateMixin {
+  /// Breathing, reflection, soundscape.
+  static const int _totalSteps = 3;
+
   late AnimationController _breatheController;
 
   @override
@@ -155,7 +158,7 @@ class _NightExperienceScreenState extends ConsumerState<NightExperienceScreen> w
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(3, (index) {
+                    children: List.generate(_totalSteps, (index) {
                       return Container(
                         margin: const EdgeInsets.symmetric(horizontal: 4),
                         width: 8,
@@ -186,8 +189,10 @@ class _NightExperienceScreenState extends ConsumerState<NightExperienceScreen> w
                       IconButton(
                         icon: const Icon(Icons.skip_next, color: Colors.white),
                         onPressed: () {
-                          if (currentStep < 2) {
-                            ref.read(nightControllerProvider.notifier).nextStep();
+                          if (currentStep < _totalSteps - 1) {
+                            ref
+                                .read(nightControllerProvider.notifier)
+                                .nextStep(_totalSteps);
                           } else {
                             _showFeedbackSheet();
                           }

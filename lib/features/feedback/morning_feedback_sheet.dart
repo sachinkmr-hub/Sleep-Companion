@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:neend_companion/features/feedback/feedback_controller.dart';
+import 'package:neend_companion/models/feedback_entry.dart';
 import 'package:go_router/go_router.dart';
 
 class MorningFeedbackSheet extends ConsumerStatefulWidget {
@@ -11,15 +12,15 @@ class MorningFeedbackSheet extends ConsumerStatefulWidget {
 }
 
 class _MorningFeedbackSheetState extends ConsumerState<MorningFeedbackSheet> {
-  int? _selectedRating; // 1 to 4
+  String? _selectedRating;
   int _sleepHours = 7;
   int _sleepMinutes = 0;
 
-  final List<Map<String, dynamic>> _options = [
-    {'icon': '⚡', 'label': 'Energized', 'value': 4},
-    {'icon': '👍', 'label': 'Okay', 'value': 3},
-    {'icon': '😴', 'label': 'Tired', 'value': 2},
-    {'icon': '😰', 'label': 'Stressed', 'value': 1},
+  final List<Map<String, String>> _options = [
+    {'icon': '⚡', 'label': 'Energized', 'value': 'energized'},
+    {'icon': '👍', 'label': 'Okay', 'value': 'okay'},
+    {'icon': '😴', 'label': 'Tired', 'value': 'tired'},
+    {'icon': '😰', 'label': 'Stressed', 'value': 'stressed'},
   ];
 
   void _submit() {
@@ -28,10 +29,10 @@ class _MorningFeedbackSheetState extends ConsumerState<MorningFeedbackSheet> {
     final sleepDurationMinutes = (_sleepHours * 60) + _sleepMinutes;
     
     ref.read(feedbackControllerProvider.notifier).saveFeedback(
-      type: 'morning',
+      type: FeedbackType.morning,
       rating: _selectedRating!,
       interventionIds: [], // Empty for morning feedback unless specific interventions are used
-      sleepDuration: sleepDurationMinutes,
+      sleepDurationMinutes: sleepDurationMinutes,
       notes: null,
     );
     
@@ -89,10 +90,10 @@ class _MorningFeedbackSheetState extends ConsumerState<MorningFeedbackSheet> {
                   ),
                   child: Column(
                     children: [
-                      Text(option['icon'], style: const TextStyle(fontSize: 32)),
+                      Text(option['icon']!, style: const TextStyle(fontSize: 32)),
                       const SizedBox(height: 8),
                       Text(
-                        option['label'],
+                        option['label']!,
                         style: TextStyle(
                           color: isSelected ? const Color(0xFFFF8C42) : const Color(0xFF2D3142),
                           fontSize: 12,

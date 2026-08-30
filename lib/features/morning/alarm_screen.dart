@@ -30,12 +30,16 @@ class _AlarmScreenState extends ConsumerState<AlarmScreen> with SingleTickerProv
     final alarms = await _alarmRepository.getAlarms();
     if (mounted) {
       setState(() {
-        _alarmData = alarms.isNotEmpty ? alarms.first : AlarmData(
-          id: '1', 
-          time: DateTime.now(), 
-          isEnabled: true,
-          tomorrowGoal: 'Have a great day!',
-        );
+        _alarmData = alarms.isNotEmpty
+            ? alarms.first
+            : AlarmData(
+                id: 1,
+                scheduledTime: DateTime.now(),
+                isEnabled: true,
+                tomorrowGoal: 'Have a great day!',
+                snoozeCount: 0,
+                createdAt: DateTime.now(),
+              );
         _isLoading = false;
       });
     }

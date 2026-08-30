@@ -5,7 +5,6 @@ import 'package:neend_companion/models/user_profile.dart';
 import 'package:neend_companion/models/night_plan.dart';
 import 'package:neend_companion/models/morning_plan.dart';
 import 'package:neend_companion/models/intervention.dart';
-import 'package:neend_companion/data/intervention_registry.dart';
 import 'package:neend_companion/data/personalization_engine.dart';
 import 'package:neend_companion/core/utils/string_utils.dart';
 import 'package:neend_companion/core/utils/date_utils.dart';
