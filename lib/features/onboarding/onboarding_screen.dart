@@ -58,9 +58,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   Future<void> _finishOnboarding() async {
     await _controller.saveProfile();
-    if (mounted) {
-      context.go('/home');
+    if (!mounted) return;
+
+    // The router's redirect sends anyone without a stored profile straight
+    // back here, so navigating after a failed save would look like the
+    // button doing nothing. Surface the failure instead.
+    if (!UserRepository.isOnboardedSync()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Couldn't save your details. Please try again."),
+        ),
+      );
+      return;
     }
+
+    context.go('/home');
   }
 
   @override

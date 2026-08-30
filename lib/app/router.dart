@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'package:neend_companion/data/repositories/user_repository.dart';
+
 // Feature screens
 import 'package:neend_companion/features/onboarding/onboarding_screen.dart';
 import 'package:neend_companion/features/home/home_screen.dart';
@@ -146,14 +148,7 @@ final GoRouter appRouter = GoRouter(
 );
 
 /// Check onboarding status from local storage.
-bool _checkOnboarded() {
-  try {
-    final box = Hive.box('user_profile');
-    return box.get('onboarding_completed', defaultValue: false) as bool;
-  } catch (_) {
-    return false;
-  }
-}
+bool _checkOnboarded() => UserRepository.isOnboardedSync();
 
 /// Splash screen shown during app initialization.
 /// Redirects to onboarding or home after a brief delay.
@@ -189,8 +184,8 @@ class _SplashScreenState extends State<_SplashScreen>
 
     try {
       // Ensure Hive box is open
-      if (!Hive.isBoxOpen('user_profile')) {
-        await Hive.openBox('user_profile');
+      if (!Hive.isBoxOpen(UserRepository.boxName)) {
+        await Hive.openBox(UserRepository.boxName);
       }
 
       final onboarded = _checkOnboarded();
