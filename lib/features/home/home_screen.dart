@@ -100,6 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
             bottom: 32,
             right: 24,
             child: MicButton(
+              isListening: false,
               onPressed: () {
                 context.go('/checkin');
               },

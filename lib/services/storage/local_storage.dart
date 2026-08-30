@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:hive_ce/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:neend_companion/models/user_profile.dart';
 import 'package:neend_companion/models/check_in.dart';
 import 'package:neend_companion/models/feedback_entry.dart';

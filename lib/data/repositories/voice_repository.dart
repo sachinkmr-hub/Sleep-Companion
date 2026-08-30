@@ -55,4 +55,15 @@ class VoiceRepository {
       await box.put('consent', jsonEncode(consent.toJson()));
     } catch (e) {}
   }
+
+  Future<void> saveVoiceMessage(VoiceMessage message) => saveMessage(message);
+
+  Future<void> clearAll() async {
+    try {
+      final messagesBox = await _getMessagesBox();
+      await messagesBox.clear();
+      final consentBox = await _getConsentBox();
+      await consentBox.clear();
+    } catch (e) {}
+  }
 }

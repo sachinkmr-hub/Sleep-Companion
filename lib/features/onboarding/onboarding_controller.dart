@@ -40,16 +40,38 @@ class OnboardingController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Maps the label shown during onboarding onto the stored enum value.
+  ExperienceStyle get experienceStyle {
+    switch (selectedStyle?.toLowerCase()) {
+      case 'warm':
+        return ExperienceStyle.warm;
+      case 'minimal':
+        return ExperienceStyle.minimal;
+      case 'motivating':
+        return ExperienceStyle.motivating;
+      case 'calm':
+        return ExperienceStyle.calm;
+      default:
+        return ExperienceStyle.calm;
+    }
+  }
+
   Future<void> saveProfile() async {
+    final now = DateTime.now();
+    final existing = await _userRepository.getProfile();
+
     final profile = UserProfile(
-      id: 'default_user',
-      displayName: 'User',
+      id: existing?.id ?? 'default_user',
+      displayName: existing?.displayName ?? 'User',
       goals: selectedGoals.toList(),
-      experienceStyle: selectedStyle ?? 'Calm',
+      sleepPreference: existing?.sleepPreference ?? SleepPreference.flexible,
+      experienceStyle: experienceStyle,
       usualSleepTime: sleepTime,
       usualWakeTime: wakeTime,
-      voicePreference: 'Default',
+      voicePreference: existing?.voicePreference ?? VoicePreference.neutral_ai,
       onboardingCompleted: true,
+      createdAt: existing?.createdAt ?? now,
+      updatedAt: now,
     );
     await _userRepository.saveProfile(profile);
   }

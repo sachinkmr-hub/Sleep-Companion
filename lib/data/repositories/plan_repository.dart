@@ -48,4 +48,17 @@ class PlanRepository {
       await box.put('morning_plan', jsonEncode(plan.toJson()));
     } catch (e) {}
   }
+
+  /// The most recently saved night plan, if any.
+  Future<NightPlan?> getLatestNightPlan() => getActiveNightPlan();
+
+  /// The most recently saved morning plan, if any.
+  Future<MorningPlan?> getLatestMorningPlan() => getActiveMorningPlan();
+
+  Future<void> clearAll() async {
+    try {
+      final box = await _getBox();
+      await box.clear();
+    } catch (e) {}
+  }
 }

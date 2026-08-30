@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 
 class AnimatedGradientBackground extends StatefulWidget {
   final TimeOfDay? timeOfDay;
-  final Widget child;
+
+  /// Optional content painted on top of the gradient. Omit it to use the
+  /// widget as a plain background layer inside a [Stack].
+  final Widget? child;
 
   const AnimatedGradientBackground({
     super.key,
     this.timeOfDay,
-    required this.child,
+    this.child,
   });
 
   @override

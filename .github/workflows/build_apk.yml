@@ -28,16 +28,29 @@ jobs:
 
       - name: Generate Native Android Build Scaffolding
         run: |
-          # Backup custom files
-          cp android/app/src/main/AndroidManifest.xml /tmp/AndroidManifest.xml
-          cp android/app/build.gradle /tmp/build.gradle
-          
-          # Regenerate missing gradle wrappers and scaffolding
+          # The repo does not track the Gradle wrapper or the launcher icons,
+          # so `flutter create` is used to fill those in. It must not be
+          # allowed to touch the Gradle config we do track.
+          mkdir -p /tmp/android-backup
+          cp android/app/src/main/AndroidManifest.xml /tmp/android-backup/
+          cp android/app/build.gradle /tmp/android-backup/app-build.gradle
+          cp android/build.gradle /tmp/android-backup/root-build.gradle
+          cp android/settings.gradle /tmp/android-backup/
+          cp android/gradle.properties /tmp/android-backup/
+
           flutter create . --platforms=android --org com.neend --project-name neend_companion
-          
-          # Restore custom files
-          cp /tmp/AndroidManifest.xml android/app/src/main/AndroidManifest.xml
-          cp /tmp/build.gradle android/app/build.gradle
+
+          cp /tmp/android-backup/AndroidManifest.xml android/app/src/main/AndroidManifest.xml
+          cp /tmp/android-backup/app-build.gradle android/app/build.gradle
+          cp /tmp/android-backup/root-build.gradle android/build.gradle
+          cp /tmp/android-backup/settings.gradle android/settings.gradle
+          cp /tmp/android-backup/gradle.properties android/gradle.properties
+
+          # `flutter create` derives the package from --org plus --project-name
+          # (com.neend.neend_companion), which is not this app's namespace
+          # (com.neend.companion). Drop the duplicate activity it generates so
+          # only the tracked MainActivity is compiled.
+          rm -rf android/app/src/main/kotlin/com/neend/neend_companion
 
       - name: Force Gradle 8.4 Wrapper
         run: |

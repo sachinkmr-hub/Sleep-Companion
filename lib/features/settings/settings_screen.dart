@@ -82,7 +82,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDemoMode = ref.watch(demoServiceProvider).isDemoMode;
+    final isDemoMode = ref.watch(demoServiceProvider);
 
     return Scaffold(
       backgroundColor: const Color(0xFF0A0E1A),
@@ -151,7 +151,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             onTap: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Running on $0-cost Free AI Engine with full offline fallback.'),
+                  content: Text('Running on \$0-cost Free AI Engine with full offline fallback.'),
                 ),
               );
             },

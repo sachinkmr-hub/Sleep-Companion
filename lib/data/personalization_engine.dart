@@ -232,6 +232,9 @@ class PersonalizationEngine {
           score += 0.1;
         }
         break;
+      case ExperienceStyle.unknown:
+        // No stated preference — leave the base score untouched.
+        break;
     }
 
     return score;

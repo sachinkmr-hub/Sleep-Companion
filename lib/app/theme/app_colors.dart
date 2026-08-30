@@ -6,6 +6,7 @@ class AppColors {
   static const Color nightSurface = Color(0xFF1A1F36);
   static const Color nightAccent = Color(0xFFF5C842);
   static const Color nightText = Colors.white;
+  static const Color nightTextPrimary = nightText;
   static const Color nightTextMuted = Color(0xFF8B9DC3);
   static const Color nightError = Color(0xFFCF6679);
 

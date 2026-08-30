@@ -7,9 +7,11 @@ class MorningController extends StateNotifier<AsyncValue<MorningPlan?>> {
   }
 
   void _loadMorningPlan() {
+    final now = DateTime.now();
     // Simulated morning plan
     final plan = MorningPlan(
-      wakeTime: DateTime.now(),
+      wakeTime:
+          '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}',
       theme: 'Energetic',
       steps: [
         MorningStep(stepOrder: 1, title: 'Hydrate', interventionId: 'hydrate_1', durationMinutes: 2, instructions: 'Drink a full glass of water.'),
