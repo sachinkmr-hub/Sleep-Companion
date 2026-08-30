@@ -33,7 +33,9 @@ dependencies:
   
   # Voice & Speech
   speech_to_text: ^6.6.0
-  flutter_tts: ^4.0.2
+  # 4.2.4+ requires Kotlin 2.2.20 / AGP 8.13 / compileSdk 36, which this
+  # project's Flutter 3.22 Android toolchain cannot compile against.
+  flutter_tts: '>=4.0.2 <4.2.4'
   record: ^5.1.0
   
   # Storage & Security
